@@ -35,6 +35,18 @@ func DESTROY_SESSION() map[string]string {
 	}
 }
 
+type MODEL_KEEPALIVE_SESSION struct {
+	Janus       string `json:"janus"`
+	SessionID   int64  `json:"session_id"`
+	Transaction string `json:"transaction"`
+}
+
+func KEEPALIVE_SESSION() map[string]string {
+	return map[string]string{
+		"janus": "keepalive", "transaction": uuid.New().String(),
+	}
+}
+
 func GetPostResponse(endpoint string, payload any) *http.Response {
 	json_data, err := json.Marshal(payload)
 	if err != nil {
