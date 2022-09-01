@@ -18,7 +18,7 @@ type Plugin struct {
 }
 
 func New(session session.Session, name string) Plugin {
-	plugin := Plugin{
+	plugin := Plugin {
 		session: session,
 		name:    name,
 	}
