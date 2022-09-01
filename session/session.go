@@ -13,7 +13,7 @@ import (
 type Session struct {
 	client   janus.Http
 	id       string
-	endpoint string
+	Endpoint string
 }
 
 func New(client janus.Http) Session {
@@ -21,7 +21,7 @@ func New(client janus.Http) Session {
 		client: client,
 	}
 	session.id = session.getId()
-	session.endpoint = session.getEndpoint()
+	session.Endpoint = session.getEndpoint()
 	return session
 }
 
@@ -40,7 +40,7 @@ func (_session Session) getEndpoint() string {
 }
 
 func (_session Session) Destroy() {
-	response := requests.GetPostResponse(_session.endpoint, requests.DESTROY_SESSION())
+	response := requests.GetPostResponse(_session.Endpoint, requests.DESTROY_SESSION())
 	model := &requests.MODEL_DESTROY_SESSION{}
 	err := json.NewDecoder(response.Body).Decode(&model)
 	if err != nil || model.Janus == "error" {
@@ -49,7 +49,7 @@ func (_session Session) Destroy() {
 }
 
 func (_session Session) KeepAlive() {
-	response := requests.GetPostResponse(_session.endpoint, requests.KEEPALIVE_SESSION())
+	response := requests.GetPostResponse(_session.Endpoint, requests.KEEPALIVE_SESSION())
 	model := &requests.MODEL_KEEPALIVE_SESSION{}
 	err := json.NewDecoder(response.Body).Decode(&model)
 	if err != nil || model.Janus != "ack" {
@@ -61,6 +61,6 @@ func (_session Session) String() string {
 	return fmt.Sprintf(
 		"Session Id: %s\nSession handle endpoint: %s",
 		_session.id,
-		_session.endpoint,
+		_session.Endpoint,
 	)
 }
