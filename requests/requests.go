@@ -47,6 +47,22 @@ func KEEPALIVE_SESSION() map[string]string {
 	}
 }
 
+type MODEL_ATTACH_PLUGIN struct {
+	Janus       string `json:"janus"`
+	SessionID   int64  `json:"session_id"`
+	Transaction string `json:"transaction"`
+	Data        struct {
+		ID int64 `json:"id"`
+	} `json:"data"`
+}
+
+func ATTACH_PLUGIN(pluginName string) map[string]string {
+	return map[string]string{
+		"janus": "attach", "transaction": uuid.New().String(),
+		"plugin": pluginName,
+	}
+}
+
 func GetPostResponse(endpoint string, payload any) *http.Response {
 	json_data, err := json.Marshal(payload)
 	if err != nil {
