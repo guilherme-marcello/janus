@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/google/uuid"
+	"github.com/guilherme-marcello/janus/elements"
 )
 
 type MODEL_CREATE_SESSION struct {
@@ -60,6 +61,29 @@ func ATTACH_PLUGIN(pluginName string) map[string]string {
 	return map[string]string{
 		"janus": "attach", "transaction": uuid.New().String(),
 		"plugin": pluginName,
+	}
+}
+
+type MODEL_LIST_RECORDPLAY struct {
+	Janus       string `json:"janus"`
+	SessionID   int64  `json:"session_id"`
+	Transaction string `json:"transaction"`
+	Sender      int64  `json:"sender"`
+	Plugindata  struct {
+		Plugin string `json:"plugin"`
+		Data   struct {
+			Recordplay string               `json:"recordplay"`
+			List       []elements.Recording `json:"list"`
+		} `json:"data"`
+	} `json:"plugindata"`
+}
+
+func LIST_RECORDPLAY() map[string]any {
+	return map[string]any{
+		"janus": "message", "transaction": uuid.New().String(),
+		"body": map[string]string{
+			"request": "list",
+		},
 	}
 }
 
