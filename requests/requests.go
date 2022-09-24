@@ -78,7 +78,7 @@ type MODEL_LIST_RECORDPLAY struct {
 	} `json:"plugindata"`
 }
 
-func LIST_RECORDPLAY() map[string]any {
+func LIST_REQUEST() map[string]any {
 	return map[string]any{
 		"janus": "message", "transaction": uuid.New().String(),
 		"body": map[string]string{

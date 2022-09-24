@@ -62,7 +62,7 @@ func NewRecordPlayHandler(session session.Session) RecordPlay {
 }
 
 func (_recordplay RecordPlay) List() []elements.Recording {
-	response := requests.GetPostResponse(_recordplay.endpoint, requests.LIST_RECORDPLAY())
+	response := requests.GetPostResponse(_recordplay.endpoint, requests.LIST_REQUEST())
 	model := &requests.MODEL_LIST_RECORDPLAY{}
 	err := json.NewDecoder(response.Body).Decode(&model)
 	if err != nil || model.Janus == "error" {
