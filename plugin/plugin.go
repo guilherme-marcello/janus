@@ -44,7 +44,8 @@ func (_plugin Plugin) getEndpoint() string {
 
 func (_plugin Plugin) String() string {
 	return fmt.Sprintf(
-		"Plugin Handle Id: %s\nPlugin handle endpoint: %s",
+		"|%s|\nPlugin Handle Id: %s\nPlugin handle endpoint: %s",
+		_plugin.name,
 		_plugin.id,
 		_plugin.endpoint,
 	)
