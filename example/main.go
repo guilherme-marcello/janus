@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/guilherme-marcello/janus"
+	"github.com/guilherme-marcello/janus/elements"
+	"github.com/guilherme-marcello/janus/plugin"
 	"github.com/guilherme-marcello/janus/session"
 )
 
@@ -13,6 +15,19 @@ func main() {
 	}
 
 	janusSession := session.New(janusClient)
-	fmt.Println(janusSession)
+	janusSession.KeepAlive()
+
+	streamingPlugin := plugin.NewStreamingHandler(janusSession)
+	fmt.Println(streamingPlugin)
+    
+	var mountpointsList []elements.Mountpoint = streamingPlugin.List()
+
+	fmt.Println("<-- Available mountpoints to watch -->")
+	for _, mountpoint := range mountpointsList {
+		if mountpoint.Enabled {
+			fmt.Printf("[%d] %s\n", mountpoint.ID, mountpoint.Description)
+		}
+	}
+
 	janusSession.Destroy()
 }
