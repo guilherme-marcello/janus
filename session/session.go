@@ -16,13 +16,17 @@ type Session struct {
 	Endpoint string
 }
 
-func New(client janus.Http) Session {
+func New(client janus.Http) (Session, error) {
 	session := Session{
 		client: client,
 	}
-	session.id = session.getId()
+	var err error
+	session.id, err = session.getId()
+	if err != nil {
+		return Session{}, err
+	}
 	session.Endpoint = session.getEndpoint()
-	return session
+	return session, nil
 }
 
 func (_session Session) getId() (string, error) {
