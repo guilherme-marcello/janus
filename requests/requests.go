@@ -3,94 +3,10 @@ package requests
 import (
 	"bytes"
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"github.com/google/uuid"
-	"github.com/guilherme-marcello/janus/elements"
 )
-
-type MODEL_CREATE_SESSION struct {
-	Janus       string `json:"janus"`
-	Transaction string `json:"transaction"`
-	Data        struct {
-		ID int64 `json:"id"`
-	} `json:"data"`
-}
-
-func CREATE_SESSION() map[string]string {
-	return map[string]string{
-		"janus": "create", "transaction": uuid.New().String(),
-	}
-}
-
-type MODEL_DESTROY_SESSION struct {
-	Janus       string `json:"janus"`
-	SessionID   int64  `json:"session_id"`
-	Transaction string `json:"transaction"`
-}
-
-func DESTROY_SESSION() map[string]string {
-	return map[string]string{
-		"janus": "destroy", "transaction": uuid.New().String(),
-	}
-}
-
-type MODEL_KEEPALIVE_SESSION struct {
-	Janus       string `json:"janus"`
-	SessionID   int64  `json:"session_id"`
-	Transaction string `json:"transaction"`
-}
-
-func KEEPALIVE_SESSION() map[string]string {
-	return map[string]string{
-		"janus": "keepalive", "transaction": uuid.New().String(),
-	}
-}
-
-type MODEL_ATTACH_PLUGIN struct {
-	Janus       string `json:"janus"`
-	SessionID   int64  `json:"session_id"`
-	Transaction string `json:"transaction"`
-	Data        struct {
-		ID int64 `json:"id"`
-	} `json:"data"`
-}
-
-func ATTACH_PLUGIN(pluginName string) map[string]string {
-	return map[string]string{
-		"janus": "attach", "transaction": uuid.New().String(),
-		"plugin": pluginName,
-	}
-}
-
-type MODEL_LIST_RECORDPLAY struct {
-	Janus       string `json:"janus"`
-	SessionID   int64  `json:"session_id"`
-	Transaction string `json:"transaction"`
-	Sender      int64  `json:"sender"`
-	Plugindata  struct {
-		Plugin string `json:"plugin"`
-		Data   struct {
-			Recordplay string               `json:"recordplay"`
-			List       []elements.Recording `json:"list"`
-		} `json:"data"`
-	} `json:"plugindata"`
-}
-
-type MODEL_LIST_STREAMING struct {
-	Janus       string `json:"janus"`
-	SessionID   int64  `json:"session_id"`
-	Transaction string `json:"transaction"`
-	Sender      int64  `json:"sender"`
-	Plugindata  struct {
-		Plugin string `json:"plugin"`
-		Data   struct {
-			Streaming string                `json:"streaming"`
-			List      []elements.Mountpoint `json:"list"`
-		} `json:"data"`
-	} `json:"plugindata"`
-}
 
 func LIST_REQUEST() map[string]any {
 	return map[string]any{
@@ -101,14 +17,23 @@ func LIST_REQUEST() map[string]any {
 	}
 }
 
-func GetPostResponse(endpoint string, payload any) *http.Response {
+func SendHTTPRequest(method string, endpoint string, payload interface{}) (*http.Response, error) {
 	json_data, err := json.Marshal(payload)
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	resp, err := http.Post(endpoint, "application/json", bytes.NewBuffer(json_data))
+
+	req, err := http.NewRequest(method, endpoint, bytes.NewBuffer(json_data))
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
-	return resp
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
 }
