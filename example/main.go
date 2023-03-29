@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/guilherme-marcello/janus"
-	"github.com/guilherme-marcello/janus/elements"
 	"github.com/guilherme-marcello/janus/plugin"
 	"github.com/guilherme-marcello/janus/session"
 )
@@ -14,13 +13,25 @@ func main() {
 		Endpoint: "https://janus.conf.meetecho.com/janus",
 	}
 
-	janusSession := session.New(janusClient)
+	janusSession, err := session.New(janusClient)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	janusSession.KeepAlive()
 
-	streamingPlugin := plugin.NewStreamingHandler(janusSession)
+	streamingPlugin, err := plugin.NewStreamingHandler(janusSession)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 	fmt.Println(streamingPlugin)
-    
-	var mountpointsList []elements.Mountpoint = streamingPlugin.List()
+
+	mountpointsList, err := streamingPlugin.List()
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	fmt.Println("<-- Available mountpoints to watch -->")
 	for _, mountpoint := range mountpointsList {
