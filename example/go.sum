@@ -1,4 +1,4 @@
 github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/guilherme-marcello/janus v1.0.1 h1:uW5Riag8R9ixP1c2vgWxWZu7N4tMYky7NYg+3y9ORdA=
-github.com/guilherme-marcello/janus v1.0.1/go.mod h1:XmHqJEbXL94eSN9pooXvempNYOosXHUHVukhExMA2wg=
+github.com/guilherme-marcello/janus v1.0.2 h1:LTQb902L6vGwBs4iZn8jFIWQAwrdtNa9vXMZXNv0Hks=
+github.com/guilherme-marcello/janus v1.0.2/go.mod h1:XmHqJEbXL94eSN9pooXvempNYOosXHUHVukhExMA2wg=
