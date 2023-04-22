@@ -4,6 +4,8 @@
 
 The Janus Client is a Go library that provides a convenient way to interact with the Janus WebRTC Gateway API. It is designed to be used in Go projects for building applications that require real-time communication using the Janus Gateway.
 
+The Janus Client follows the design patterns of composition and uses a modular approach with separate files for different components, including elements, plugin, requests, and session. The package provides structs, interfaces, and utility functions to handle Janus-specific operations in a Go-oriented manner.
+
 The library is organized into different packages based on the functionality they provide. The main packages in the Janus Client are:
 
 - `elements`: Contains Go files related to Janus recording and streaming, including structs and functions for handling recording and streaming operations.
@@ -47,3 +49,7 @@ The `session` package contains generic session-related structures and provides m
 ### `janus`
 
 The `janus` package contains the definition of the `Http` struct, which specifies the Janus HTTP API endpoint. All subsequent structs in the library use this `Http` struct, as all requests are made to a specific Janus API endpoint.
+
+## Contributing
+
+We welcome contributions to the Janus Client library! If you would like to contribute, please follow these guideline: [CONTRIBUTING.MD](CONTRIBUTING.MD)
